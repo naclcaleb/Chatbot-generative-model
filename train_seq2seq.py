@@ -7,7 +7,7 @@ import tensorflow as tf
 def tokenize(string):
     tokenized_list = []
     tmp_indx = 0
-    for i in string:
+    for i in range(len(string)):
         if string[i] in "?.,!;":
             tokenized_list.append(string[tmp_indx:i])
             tokenized_list.append(string[i])
@@ -15,6 +15,10 @@ def tokenize(string):
         elif string[i] == " ":
             tokenized_list.append(string[tmp_indx:i])
             tmp_indx = i+1
+            
+    #A quick and dirty way out :/
+    tokenized_list = [x for x in tokenized_list if x!=""]
+            
             
     return tokenized_list
 
@@ -30,10 +34,11 @@ train_data = []
 for i in range(0,len(raw_file_data)):
     if i%2!=0:
         #Perform the most basic tokenization algorithm
-        query = raw_file_data[i-1].split(" ")
-        target_response = raw_file_data[i].split(" ")
+        query = tokenize(raw_file_data[i-1])
+        target_response = tokenize(raw_file_data[i])
         train_data.append([query, target_response])
 
+#Now that I have a list of tokens in the form of strings, I need to map these to numbers somehow
 
 
 #Load encoder and decoder networks
