@@ -38,10 +38,17 @@ def process_data(dir, eos, pad, l):
         print(train_pad_num)
         for j in range(1,train_pad_num-1):
             train_data[i].append(pad)
-
-        train_data[i].append(eos)
+    for i in range(len(target_data)):
+        target_data[i] = target_data[i].tolist()
+        target_pad_num = l - len(target_data[i])
+        print(target_pad_num)
+        for j in range(1,target_pad_num-1):
+            target_data[i].append(pad)
+        target_data[i].insert(0,eos)
 
     #Convert back to numpy arrays
     for i in range(len(train_data)):
         train_data[i] = np.array(train_data[i])
+    for i in range(len(target_data)):
+        target_data[i] = np.array(target_data[i])
     return train_data, target_data
